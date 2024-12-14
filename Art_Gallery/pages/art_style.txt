@@ -1,0 +1,13 @@
+CREATE TABLE art_styles (
+    style_id INT AUTO_INCREMENT PRIMARY KEY,
+    style_name VARCHAR(255) NOT NULL,
+    description TEXT
+);
+
+-- Sample data
+INSERT INTO art_styles (style_name, description) VALUES
+('Impressionism', 'A 19th-century art movement focusing on light and color, often painted outdoors.'),
+('Abstract', 'Art that does not attempt to represent external reality, focusing on shapes and colors.'),
+('Cubism', 'An avant-garde movement that revolutionized perspective in visual art, pioneered by Picasso.'),
+('Surrealism', 'A movement that sought to release the creative potential of the unconscious mind.'),
+('Realism', 'Depicts subjects in their natural state, without idealization or exaggeration.');

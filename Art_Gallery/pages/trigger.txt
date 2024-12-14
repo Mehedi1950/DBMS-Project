@@ -1,0 +1,194 @@
+Certainly! Below are some examples of MySQL triggers, transactions, views, and joins using the tables you've provided. These examples will demonstrate how to perform operations based on the schema you already have.
+
+1. Trigger: Update Artwork Availability After Sale
+Let's create a trigger that automatically updates the artwork's status to "sold" when an artwork sale is recorded in the artwork_sales table.
+
+sql
+Copy code
+DELIMITER $$
+
+CREATE TRIGGER after_sale_update_availability
+AFTER INSERT ON artwork_sales
+FOR EACH ROW
+BEGIN
+    UPDATE artwork_availability
+    SET status = 'sold', sold_date = NOW()
+    WHERE artwork_id = NEW.artwork_id;
+END $$
+
+DELIMITER ;
+This trigger will:
+
+Fire after a new sale is recorded in the artwork_sales table.
+Update the status of the corresponding artwork in the artwork_availability table to "sold" and set the sold_date to the current timestamp.
+2. Transaction: Ticket Sale and Visitor Membership Update
+Let's create a transaction that ensures both the sale of a ticket and the update of the visitor's membership points happen together. If any part of the process fails, both operations should be rolled back.
+
+sql
+Copy code
+START TRANSACTION;
+
+-- Insert ticket sale record
+INSERT INTO ticket_sales (visitor_id, exhibition_id, purchase_date, ticket_type, ticket_price) 
+VALUES (1, 2, NOW(), 'VIP', 50.00);
+
+-- Update visitor's loyalty points
+UPDATE visitor_loyalty_program
+SET loyalty_points = loyalty_points + 10
+WHERE visitor_id = 1;
+
+-- If all goes well, commit the transaction
+COMMIT;
+
+-- If any error occurs, rollback
+-- ROLLBACK;
+This transaction will:
+
+Record the sale of a ticket.
+Add loyalty points to the visitor's loyalty program.
+If both actions are successful, commit the transaction. If an error occurs, you can use ROLLBACK to revert both operations.
+3. View: Artwork Sale Summary
+A view can be created to display a summary of all artwork sales including the artwork name, the artist name, and the sale price.
+
+sql
+Copy code
+CREATE VIEW artwork_sale_summary AS
+SELECT 
+    a.artwork_name,
+    ar.artist_name,
+    s.sale_price,
+    s.sale_date
+FROM 
+    artwork_sales s
+JOIN 
+    artwork_availability a ON s.artwork_id = a.artwork_id
+JOIN 
+    artist_biography ar ON a.artist_id = ar.artist_id;
+This view will:
+
+Join the artwork_sales table with artwork_availability to get artwork details.
+Join the artist_biography table to get the artist details.
+Show a summary of artwork sales, including the artwork name, artist name, sale price, and sale date.
+4. Join Query: Visitors and Their Feedback on Artworks
+Let's write a JOIN query to get a list of visitors along with their feedback on specific artworks in exhibitions.
+
+sql
+Copy code
+SELECT 
+    v.name AS visitor_name,
+    e.event_name AS exhibition_name,
+    a.artwork_name,
+    f.feedback_text,
+    f.rating
+FROM 
+    visitor_feedback f
+JOIN 
+    visitors v ON f.visitor_id = v.visitor_id
+JOIN 
+    exhibitions e ON f.exhibition_id = e.exhibition_id
+JOIN 
+    artwork_availability a ON f.artwork_id = a.artwork_id
+WHERE 
+    f.feedback_date BETWEEN '2024-01-01' AND '2024-06-30'
+ORDER BY 
+    f.rating DESC;
+This query will:
+
+Join the visitor_feedback, visitors, exhibitions, and artwork_availability tables.
+Filter the feedback for the period between January 1st, 2024, and June 30th, 2024.
+Order the results by rating, with the highest-rated feedback first.
+5. Trigger: Update Artwork Inventory When Artwork is Added to Exhibition
+Let's create a trigger that updates the inventory table when a new artwork is added to an exhibition.
+
+sql
+Copy code
+DELIMITER $$
+
+CREATE TRIGGER after_artwork_added_to_exhibition
+AFTER INSERT ON artwork_exhibitions
+FOR EACH ROW
+BEGIN
+    INSERT INTO artwork_inventory (artwork_id, location, condition, inventory_date)
+    VALUES (NEW.artwork_id, 'Gallery Exhibition', 'Excellent', NOW());
+END $$
+
+DELIMITER ;
+This trigger will:
+
+Fire after an artwork is added to the artwork_exhibitions table.
+Automatically insert a record into the artwork_inventory table with the artwork's ID, its location as "Gallery Exhibition," and its condition as "Excellent" (you can modify this based on your specific needs).
+6. Transaction: Artwork Auction Sale
+Let's create a transaction for an artwork auction sale. If an artwork reaches a final bid at auction, we update the artwork's availability and record the sale in the artwork_sales table.
+
+sql
+Copy code
+START TRANSACTION;
+
+-- Insert auction record (assumed to be pre-executed)
+INSERT INTO artwork_auction_history (artwork_id, auction_date, starting_bid, final_bid, winning_bidder_id)
+VALUES (1, NOW(), 2000.00, 5000.00, 3);
+
+-- Update the artwork availability to sold
+UPDATE artwork_availability
+SET status = 'sold', sold_date = NOW()
+WHERE artwork_id = 1;
+
+-- Insert artwork sale record
+INSERT INTO artwork_sales (artwork_id, visitor_id, sale_date, sale_price, payment_method)
+VALUES (1, 3, NOW(), 5000.00, 'Credit Card');
+
+-- Commit transaction if no issues
+COMMIT;
+
+-- In case of failure, roll back
+-- ROLLBACK;
+This transaction ensures:
+
+The auction history is recorded.
+The artwork's availability is updated to "sold."
+The sale is recorded in the artwork_sales table.
+If any of these steps fail, the transaction is rolled back.
+7. View: Detailed Exhibition Information
+A view can be created to get detailed information about an exhibition, including its artworks, artists, and visitor feedback.
+
+sql
+Copy code
+CREATE VIEW exhibition_details AS
+SELECT 
+    e.event_name,
+    e.start_date,
+    e.end_date,
+    a.artwork_name,
+    ar.artist_name,
+    v.name AS visitor_name,
+    f.feedback_text,
+    f.rating
+FROM 
+    exhibitions e
+JOIN 
+    artwork_exhibitions ae ON e.exhibition_id = ae.exhibition_id
+JOIN 
+    artwork_availability a ON ae.artwork_id = a.artwork_id
+JOIN 
+    artist_biography ar ON a.artist_id = ar.artist_id
+LEFT JOIN 
+    visitor_feedback f ON a.artwork_id = f.artwork_id
+LEFT JOIN 
+    visitors v ON f.visitor_id = v.visitor_id
+ORDER BY 
+    e.start_date DESC, f.rating DESC;
+This view will:
+
+Join the exhibitions, artwork_exhibitions, artwork_availability, artist_biography, and visitor_feedback tables.
+Display exhibition details, artwork names, artist names, and visitor feedback.
+Order the results by the exhibition's start date and feedback rating (highest-rated first).
+These examples cover:
+
+Triggers: Automatically performing actions after certain events (e.g., updating artwork availability after a sale).
+Transactions: Grouping related operations to ensure consistency (e.g., ticket sales and membership point updates).
+Views: Predefined queries for complex joins and summaries.
+Joins: Combining multiple tables to display related data.
+You can customize these examples further based on your specific needs! Let me know if you need more detailed queries or additional functionality.
+
+
+You said:

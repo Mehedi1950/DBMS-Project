@@ -1,0 +1,12 @@
+SELECT 
+    v.Name AS VisitorName,
+    e.Name AS ExhibitionName,
+    t.PurchaseDate AS TicketPurchaseDate,
+    t.Price AS TicketPrice
+FROM
+    tickets t
+JOIN
+    visitors v ON t.VisitorID = v.VisitorID
+JOIN
+    exhibitions e ON t.ExhibitionID = e.ExhibitionID
+ORDER BY t.PurchaseDate DESC;

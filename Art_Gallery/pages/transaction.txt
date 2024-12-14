@@ -1,0 +1,29 @@
+DELIMITER $$
+
+CREATE PROCEDURE ProcessArtworkSale(
+    IN artwork_id INT,
+    IN buyer_id INT,
+    IN sale_price DECIMAL(10, 2),
+    IN sale_date DATE
+)
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        ROLLBACK;
+    END;
+
+    START TRANSACTION;
+
+    -- Insert the sale into the artwork_sale table
+    INSERT INTO artwork_sale (ArtworkID, BuyerID, SalePrice, SaleDate)
+    VALUES (artwork_id, buyer_id, sale_price, sale_date);
+
+    -- Update the artwork_availability table
+    UPDATE artwork_availability
+    SET IsAvailable = FALSE
+    WHERE ArtworkID = artwork_id;
+
+    COMMIT;
+END$$
+
+DELIMITER ;

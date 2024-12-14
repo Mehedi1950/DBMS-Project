@@ -1,0 +1,23 @@
+DELIMITER $$
+
+CREATE TRIGGER ApplyDiscountOnTicket
+AFTER INSERT ON tickets
+FOR EACH ROW
+BEGIN
+    DECLARE discount_amount DECIMAL(10, 2);
+    
+    -- Get the discount for the current promotion
+    SELECT DiscountAmount INTO discount_amount
+    FROM promotions_discount
+    WHERE StartDate <= NEW.PurchaseDate AND EndDate >= NEW.PurchaseDate
+    LIMIT 1;
+    
+    -- Apply the discount if available
+    IF discount_amount IS NOT NULL THEN
+        UPDATE tickets
+        SET Price = NEW.Price - discount_amount
+        WHERE TicketID = NEW.TicketID;
+    END IF;
+END$$
+
+DELIMITER ;

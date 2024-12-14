@@ -1,0 +1,15 @@
+CREATE TABLE artist_biography (
+    artist_id INT AUTO_INCREMENT PRIMARY KEY,
+    biography TEXT,
+    achievements TEXT,
+    date_of_birth DATE,
+    place_of_birth VARCHAR(255)
+);
+
+-- Sample data
+INSERT INTO artist_biography (biography, achievements, date_of_birth, place_of_birth) VALUES
+('Pablo Picasso was a Spanish painter, sculptor, printmaker, and one of the most influential artists of the 20th century.', 'Invented Cubism, co-founded the surrealist movement.', '1881-10-25', 'Málaga, Spain'),
+('Vincent van Gogh was a Dutch painter known for his expressive use of color and dramatic brushwork.', 'Famous for works like "Starry Night" and "Sunflowers".', '1853-03-30', 'Zundert, Netherlands'),
+('Frida Kahlo was a Mexican artist known for her self-portraits and exploration of identity.', 'Iconic feminist figure, celebrated for deeply personal works.', '1907-07-06', 'Coyoacán, Mexico'),
+('Claude Monet was a French painter and a founder of the Impressionist movement.', 'Known for works like "Water Lilies" and his use of light.', '1840-11-14', 'Paris, France'),
+('Leonardo da Vinci was an Italian polymath during the Renaissance period.', 'Known for "Mona Lisa" and "The Last Supper".', '1452-04-15', 'Vinci, Italy');

@@ -1,0 +1,13 @@
+CREATE TABLE art_mediums (
+    medium_id INT AUTO_INCREMENT PRIMARY KEY,
+    medium_name VARCHAR(255) NOT NULL,
+    description TEXT
+);
+
+-- Sample data
+INSERT INTO art_mediums (medium_name, description) VALUES
+('Oil Paint', 'A slow-drying paint made from pigments and oils, popular in classical painting.'),
+('Watercolor', 'A transparent medium used for painting, often creating soft and delicate works.'),
+('Acrylic', 'A fast-drying paint made from pigments suspended in an acrylic polymer emulsion.'),
+('Charcoal', 'A drawing medium made from charred wood, ideal for shading and textural effects.'),
+('Pastel', 'A medium made from powdered pigments, popular for creating soft, vivid color works.');

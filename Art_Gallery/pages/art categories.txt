@@ -1,0 +1,13 @@
+CREATE TABLE art_categories (
+    category_id INT AUTO_INCREMENT PRIMARY KEY,
+    category_name VARCHAR(255) NOT NULL,
+    description TEXT
+);
+
+-- Sample data
+INSERT INTO art_categories (category_name, description) VALUES
+('Painting', 'Artworks created with paint, including oil, watercolor, and acrylic.'),
+('Sculpture', 'Three-dimensional artworks created by shaping materials like clay or stone.'),
+('Photography', 'Art created with the use of cameras to capture images of subjects.'),
+('Printmaking', 'Artworks created by transferring ink to paper or other surfaces.'),
+('Digital Art', 'Artworks created using digital technology or computers.');
