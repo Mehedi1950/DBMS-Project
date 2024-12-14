@@ -1,0 +1,9 @@
+CREATE VIEW VisitorSummary AS
+SELECT Visitors.Name AS Visitor, Exhibitions.Name AS Exhibition, Tickets.Price 
+FROM Tickets
+JOIN Visitors ON Tickets.VisitorID = Visitors.VisitorID
+JOIN Exhibitions ON Tickets.ExhibitionID = Exhibitions.ExhibitionID;
+
+
+view
+SELECT * FROM VisitorSummary;

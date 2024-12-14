@@ -1,0 +1,39 @@
+SELECT Employees.Name AS EmployeeName, Departments.DepartmentName
+FROM Employees
+JOIN Departments
+ON Employees.DepartmentID = Departments.DepartmentID;
+
+
+
+
+CREATE TRIGGER log_deletion
+AFTER DELETE ON Employees
+FOR EACH ROW
+BEGIN
+    INSERT INTO deleted_employees_log (EmployeeID, Name, deleted_at)
+    VALUES (OLD.EmployeeID, OLD.Name, CURRENT_TIMESTAMP);
+END;
+
+
+
+DELIMITER $$
+CREATE PROCEDURE GetEmployeesByDepartment(IN department_name VARCHAR(100))
+BEGIN
+    SELECT EmployeeID, Name
+    FROM Employees
+    JOIN Departments
+    ON Employees.DepartmentID = Departments.DepartmentID
+    WHERE Departments.DepartmentName = department_name;
+END$$
+DELIMITER ;
+
+CALL GetEmployeesByDepartment('Engineering');
+
+
+
+
+CREATE VIEW EmployeeDepartmentView AS
+SELECT DISTINCT Employees.EmployeeID, Employees.Name AS EmployeeName, Departments.DepartmentName
+FROM Employees
+JOIN Departments
+ON Employees.DepartmentID = Departments.DepartmentID;

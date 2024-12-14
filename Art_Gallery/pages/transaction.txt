@@ -27,3 +27,7 @@ BEGIN
 END$$
 
 DELIMITER ;
+
+
+query for sir
+CALL ProcessArtworkSale(1, 100, 1200000.00, '2024-12-10');

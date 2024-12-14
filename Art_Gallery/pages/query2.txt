@@ -1,0 +1,3 @@
+SELECT Artworks.Title, Artists.Name, Artists.Country 
+FROM Artworks 
+JOIN Artists ON Artworks.ArtistID = Artists.ArtistID;

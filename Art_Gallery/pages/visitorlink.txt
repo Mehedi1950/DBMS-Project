@@ -1,0 +1,3 @@
+http://localhost/art_gallery/pages/visitors.php
+http://localhost/art_gallery/pages/exhibitions.php
+http://localhost/art_gallery/pages/tickets.php

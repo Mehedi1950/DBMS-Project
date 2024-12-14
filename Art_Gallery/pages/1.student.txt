@@ -1,0 +1,62 @@
+1.student:
+
+create table student
+(
+	Roll int,
+    Name varchar(100),
+    Gender varchar(100),
+    Age int,
+    CGPA double(3,2),
+    City varchar(100),
+    primary key (Roll)
+    
+):
+
+2.table er name change korte ja korbo:
+ 
+rename table student to student_details;
+
+3. table remove korte:
+ drop table student_details;
+
+4. values insert:
+  
+insert into student_details
+(Roll,Name,Gender,Age,CGPA,City)
+values(1950,'Mehedi','male',24,3.11,'Dhaka'),
+(1946,'Enamul','male',26,3.50,'Dhaka');
+
+5. dublecate values na dewyar jonno "distinct" likhte hoy
+	SELECT DISTINCT City
+        FROM student_details;
+
+6. short korte:
+SELECT Name,Roll
+FROM student_details
+ORDER by Name,Roll;
+
+7. use codition:
+select Name 
+FROM student_details 
+where Age <=25;
+
+8. update:
+UPDATE teacher
+set Salary = 205
+where Id =  2;
+
+9. for delete:
+DELETE FROM teacher
+where Id = 1;
+
+
+
+
+
+
+
+
+
+
+
+

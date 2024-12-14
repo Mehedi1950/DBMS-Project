@@ -1,0 +1,108 @@
+-- Drop tables if they exist
+DROP TABLE IF EXISTS Tickets, Visitors, Exhibitions, Artworks, Artists;
+
+-- Create Artists table
+CREATE TABLE Artists (
+    ArtistID INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(100),
+    Country VARCHAR(50),
+    BirthYear INT
+);
+
+-- Create Artworks table
+CREATE TABLE Artworks (
+    ArtworkID INT AUTO_INCREMENT PRIMARY KEY,
+    Title VARCHAR(100),
+    ArtistID INT,
+    YearCreated INT,
+    Medium VARCHAR(50),
+    Price DECIMAL(10, 2),
+    FOREIGN KEY (ArtistID) REFERENCES Artists(ArtistID)
+);
+
+-- Create Exhibitions table
+CREATE TABLE Exhibitions (
+    ExhibitionID INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(100),
+    StartDate DATE,
+    EndDate DATE
+);
+
+-- Create Visitors table
+CREATE TABLE Visitors (
+    VisitorID INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(100),
+    Email VARCHAR(100),
+    Phone VARCHAR(15)
+);
+
+-- Create Tickets table
+CREATE TABLE Tickets (
+    TicketID INT AUTO_INCREMENT PRIMARY KEY,
+    VisitorID INT,
+    ExhibitionID INT,
+    PurchaseDate DATE,
+    Price DECIMAL(10, 2),
+    FOREIGN KEY (VisitorID) REFERENCES Visitors(VisitorID),
+    FOREIGN KEY (ExhibitionID) REFERENCES Exhibitions(ExhibitionID)
+);
+
+-- Insert data into Artists
+INSERT INTO Artists (Name, Country, BirthYear) VALUES
+('Pablo Picasso', 'Spain', 1881),
+('Leonardo da Vinci', 'Italy', 1452),
+('Frida Kahlo', 'Mexico', 1907),
+('Claude Monet', 'France', 1840),
+('Vincent van Gogh', 'Netherlands', 1853),
+('Georgia O’Keeffe', 'USA', 1887),
+('Salvador Dalí', 'Spain', 1904),
+('Andy Warhol', 'USA', 1928),
+('Rembrandt', 'Netherlands', 1606),
+('Michelangelo', 'Italy', 1475);
+
+-- Insert data into Artworks
+INSERT INTO Artworks (Title, ArtistID, YearCreated, Medium, Price) VALUES
+('Les Demoiselles d\'Avignon', 1, 1907, 'Oil on Canvas', 1000000),
+('Mona Lisa', 2, 1503, 'Oil on Poplar', 8000000),
+('The Two Fridas', 3, 1939, 'Oil on Canvas', 200000),
+('Water Lilies', 4, 1916, 'Oil on Canvas', 150000),
+('Starry Night', 5, 1889, 'Oil on Canvas', 1200000),
+('Red Canna', 6, 1924, 'Oil on Canvas', 300000),
+('The Persistence of Memory', 7, 1931, 'Oil on Canvas', 900000),
+('Campbell\'s Soup Cans', 8, 1962, 'Synthetic Polymer Paint', 700000),
+('The Night Watch', 9, 1642, 'Oil on Canvas', 600000),
+('David', 10, 1504, 'Marble Sculpture', 2000000);
+
+-- Insert data into Exhibitions
+INSERT INTO Exhibitions (Name, StartDate, EndDate) VALUES
+('Modern Art Showcase', '2024-01-15', '2024-02-15'),
+('Renaissance Masterpieces', '2024-03-01', '2024-03-30'),
+('Impressionist Wonders', '2024-04-10', '2024-05-10'),
+('Mexican Magic', '2024-06-01', '2024-06-30'),
+('Dutch Legends', '2024-07-10', '2024-08-10');
+
+-- Insert data into Visitors
+INSERT INTO Visitors (Name, Email, Phone) VALUES
+('Alice Johnson', 'alice@example.com', '123-456-7890'),
+('Bob Smith', 'bob@example.com', '234-567-8901'),
+('Catherine Lee', 'catherine@example.com', '345-678-9012'),
+('David Brown', 'david@example.com', '456-789-0123'),
+('Emma Davis', 'emma@example.com', '567-890-1234'),
+('Frank Harris', 'frank@example.com', '678-901-2345'),
+('Grace Kelly', 'grace@example.com', '789-012-3456'),
+('Hannah White', 'hannah@example.com', '890-123-4567'),
+('Ian Thomas', 'ian@example.com', '901-234-5678'),
+('Jane Wilson', 'jane@example.com', '012-345-6789');
+
+-- Insert data into Tickets
+INSERT INTO Tickets (VisitorID, ExhibitionID, PurchaseDate, Price) VALUES
+(1, 1, '2024-01-16', 20.00),
+(2, 1, '2024-01-17', 20.00),
+(3, 2, '2024-03-05', 25.00),
+(4, 2, '2024-03-06', 25.00),
+(5, 3, '2024-04-15', 30.00),
+(6, 3, '2024-04-16', 30.00),
+(7, 4, '2024-06-05', 18.00),
+(8, 4, '2024-06-06', 18.00),
+(9, 5, '2024-07-15', 22.00),
+(10, 5, '2024-07-16', 22.00);
